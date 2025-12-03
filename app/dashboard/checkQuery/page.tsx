@@ -41,7 +41,7 @@ export default function CheckQuery() {
 
 
 
-    if (isLoading) "Loading...";
+    if (isLoading) console.log("loading data...");
     if (isError) (<div>
         {isError && <p> Error: {(error as Error).message} </p>}
     </div>);

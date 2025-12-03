@@ -32,12 +32,15 @@ export default function CloudinaryDirectUpload() {
         } catch (err: unknown) {
             const message = err instanceof Error ? err.message : String(err);
             console.log(message)
+            return err;
         }
     }
 
     const onSubmit = async () => {
         setError({});
         const validate = validation(image)
+
+        if (!validate) return;
 
         const signRes = await fetch("/api/cloudinaryDirectUpload", {
             method: 'POST',
