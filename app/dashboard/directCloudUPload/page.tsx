@@ -1,8 +1,6 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ImageSchema, imageSchema } from "@/lib/imageSchema"
-import { zodResolver } from "@hookform/resolvers/zod"
 import Image from "next/image"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
@@ -31,8 +29,9 @@ export default function CloudinaryDirectUpload() {
                 error.fileLength = "upload one file at a time";
                 throw new Error(" uploaded more than a file ")
             }
-        } catch (err: any) {
-            console.error(err)
+        } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : String(err);
+            console.log(message)
         }
     }
 
@@ -71,7 +70,7 @@ export default function CloudinaryDirectUpload() {
             return { error: "select a file" }
         }
         setPreview(URL.createObjectURL(file[0] as File));
-        setImage(file[0] as any)
+        setImage(file[0] as File)
     }
 
     return (
@@ -79,7 +78,7 @@ export default function CloudinaryDirectUpload() {
             <form onSubmit={form.handleSubmit(onSubmit)} className=" pt-20 ">
                 <input type="file" accept="image/*"  {...form.register("file")} onChange={(e) => handleImagePreview(e)}
                     className=" w-full border-1 border-white " />
-                {form.formState.errors?.file && <p className=" text-red-400 " > {form.formState.errors?.file.message as String} </p>}
+                {form.formState.errors?.file && <p className=" text-red-400 " > {form.formState.errors?.file.message as string} </p>}
                 <Button type="submit" disabled={!preview} className=" disabled:bg-blue-400/50 " > upload image </Button>
                 {form.formState.isSubmitting && <p className=" text-white " > submitting </p>}
             </form>

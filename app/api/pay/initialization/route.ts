@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 
 
-export async function POST(req: Request) {
+export async function POST() {
     try {
         const user = await currentUser();
 
@@ -32,8 +32,9 @@ export async function POST(req: Request) {
         // return Paystack response directly so client receives the expected shape
         return NextResponse.json({ ...data, email: user?.primaryEmailAddress?.emailAddress, amount: 30000 });
 
-    } catch (err: any) {
+    } catch (err: unknown) {
         console.log(err);
-        return NextResponse.json({ error: "failed to initialize payment" }, { status: 500 });
+        const message = err instanceof Error ? err.message : String(err);
+        return NextResponse.json({ error: message }, { status: 500 })
     }
 };

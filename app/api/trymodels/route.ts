@@ -4,7 +4,7 @@ import User from "@/model/user.model";
 import { NextResponse } from "next/server";
 
 
-export async function POST(req: Request) {
+export async function POST() {
     try {
         connectDB();
         const user = await User.create({
@@ -21,7 +21,8 @@ export async function POST(req: Request) {
         const viewUser = await User.findOne().populate("profile", "bios avatar")
         return NextResponse.json({ user, profile, viewUser }, { status: 201 });
 
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 500 });
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        return NextResponse.json({ error: message }, { status: 500 })
     }
 }

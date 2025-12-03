@@ -2,10 +2,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { useSearchParams } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
-import { notFound } from "next/navigation";
+
 import { useEffect } from "react";
 
 
@@ -18,9 +16,9 @@ type Users = {
 }
 
 export default function CheckQuery() {
-    const searchParams = useSearchParams();
-    const { user, isSignedIn } = useUser()
-    const router = useRouter()
+
+    const { user } = useUser()
+
     const useClient = useQueryClient();
     const previousData = useClient.getQueryData<Users[]>(["users"]) || []
 

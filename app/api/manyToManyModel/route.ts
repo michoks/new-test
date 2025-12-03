@@ -3,7 +3,7 @@ import Post from "@/model/post.model";
 import Tag from "@/model/tags.model";
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST() {
     try {
         connectDB();
         const post = await Post.findOne();
@@ -24,7 +24,8 @@ export async function POST(req: Request) {
         ).populate('tags', "name");
 
         return NextResponse.json(posts, { status: 200 })
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 500 })
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        return NextResponse.json({ error: message }, { status: 500 })
     }
 }

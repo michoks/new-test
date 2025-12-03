@@ -1,6 +1,4 @@
 import { NextResponse } from "next/server";
-import { auth, currentUser } from "@clerk/nextjs/server";
-import { URLSearchParams } from "url";
 import connectDB from "@/lib/connectDB";
 import Products from "@/model/new-user.model";
 import Post from "@/model/post.model";
@@ -18,20 +16,21 @@ export const users = [
 
 ];
 
-export async function GET(req: Request) {
+export async function GET() {
     try {
         connectDB()
         const products = await Products.find();
         return NextResponse.json({ products }, { status: 200 })
 
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 500 })
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        return NextResponse.json({ error: message }, { status: 500 })
     }
 
     return NextResponse.json(users, { status: 200 });
 }
 
-export async function POST(req: Request) {
+export async function POST() {
     try {
         connectDB();
         const user = await User.findOne();
@@ -44,7 +43,8 @@ export async function POST(req: Request) {
         const posts = await Post.find().populate("author.user", "name email");
         return NextResponse.json({ user, post, posts }, { status: 201 });
 
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 500 });
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        return NextResponse.json({ error: message }, { status: 500 })
     };
 }

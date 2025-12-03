@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
 
-export default async function SuccessPage({ searchParams }: { searchParams: any }) {
+export default async function SuccessPage({ searchParams }: { searchParams: { reference: string } }) {
     const reference = searchParams.reference;
     console.log(reference);
     if (!reference) {

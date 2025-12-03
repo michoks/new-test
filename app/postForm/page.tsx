@@ -40,9 +40,10 @@ export default function PostForm() {
         onSuccess: (newData) => {
             queryClient.setQueryData<UserData[]>(["users"], (oldData = []) => [...oldData, newData])
         },
-        onError: (err: any) => {
+        onError: (err: unknown) => {
             queryClient.cancelQueries()
-            console.log(err.message)
+            const message = err instanceof Error ? err.message : String(err);
+            console.log(message)
         }
     })
 

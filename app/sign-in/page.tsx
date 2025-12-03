@@ -16,7 +16,7 @@ import {
     CardHeader,
     CardFooter,
     CardTitle,
-    CardAction,
+
     CardDescription,
     CardContent
 } from "@/components/ui/card";
@@ -56,7 +56,7 @@ export default function SignInPage() {
 
         }
         catch (err: any) {
-            console.error('Sign in error:', err);
+            console.log(err)
             if (err.errors && Array.isArray(err.errors)) {
                 err.errors.forEach((error: any) => {
                     const message = error.message || "Authentication failed";
@@ -107,8 +107,9 @@ export default function SignInPage() {
                 redirectUrl: "/sso-callback",
                 redirectUrlComplete: "/"
             })
-        } catch (err: any) {
-
+        } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : String(err);
+            console.log(message)
         }
     }
 
