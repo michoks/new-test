@@ -1,15 +1,16 @@
-import { AuthenticateWithRedirectCallback, useUser } from "@clerk/nextjs";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { redirect } from "next/navigation";
 
+"use client"
+import { AuthenticateWithRedirectCallback, useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function SSOCallback() {
     const { isSignedIn } = useUser();
+    const router = useRouter();
 
     useEffect(() => {
-        if (isSignedIn) { redirect("/") }
-    }, [isSignedIn, redirect])
+        if (isSignedIn) router.replace("/");
+    }, [isSignedIn, router])
 
     return <AuthenticateWithRedirectCallback />
 }
