@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function GET(req: Request) {
     const url = new URL(req.url);
     const reference = url.searchParams.get("reference");
-    const verify = await fetch(`https://api.paystack.co/transaction/verify/${encodeURIComponent(reference)}`, {
+    const verify = await fetch(`https://api.paystack.co/transaction/verify/${reference}`, {
         headers: {
             Authorization: `Bearer ${process.env.PAYSTACK_API_SECRET_KEY}`
         }
