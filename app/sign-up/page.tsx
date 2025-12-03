@@ -7,11 +7,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { formSchema, FormSchema } from "@/lib/formSchema";
 import { Button } from "@/components/ui/button";
 
-export default function page() {
-    const { signUp, isLoaded, setActive } = useSignUp();
+export default function Page() {
+    const { signUp, isLoaded } = useSignUp();
     const {
         register, handleSubmit,
-        formState: { errors, isSubmitting }
+        formState: { errors }
     } = useForm<FormSchema>({
         resolver: zodResolver(formSchema),
     })
@@ -27,10 +27,14 @@ export default function page() {
                 password: value.password
             });
 
-            await signUp.prepareEmailAddressVerification({
-                strategy: "email_code"
-            });
-            router.push('/verify-email');
+            if (result.status === "complete") {
+                await signUp.prepareEmailAddressVerification({
+                    strategy: "email_code"
+                });
+                router.push('/verify-email');
+            }
+
+
 
         } catch (err: any) {
             console.error('Sign in error:', err);

@@ -1,9 +1,7 @@
 'use client';
 import { useSignUp } from "@clerk/nextjs";
-import { useReducer, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ReactFormState } from "react-dom/client";
-import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp";
 import { Button } from "@/components/ui/button";
 
 
