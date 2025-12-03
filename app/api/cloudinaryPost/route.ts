@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Readable } from "stream";
 
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<Response> {
     try {
         await connectDB()
         const formData = await req.formData();
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "no file found" }, { status: 400 })
         }
 
-        return new Promise((resolve) => {
+        return new Promise<Response>((resolve) => {
             const upLoadRes = cloudinary.uploader.upload_stream(
                 { folder: "my_app_home" },
                 async (error, result) => {
